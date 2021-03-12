@@ -38,8 +38,17 @@ class Searilizer():
 
             return con
         if type == 'tel':
+            try:
+                int_val = int(val)
+            except Exception:
+                int_val = None
             val = self.hander_tel_num(val)
 
+            con = {
+                "has_gang":{"tel":val},
+                "no_gang":{"tel":int_val}
+            }
+            return con
 
         con = {
             type:val

@@ -1,6 +1,7 @@
 from pymongo import MongoClient
 from .db_config import REFLECT
 from .cid_refliect import CID_REFLECT
+from .data_deal import MeageData
 MONGO_ADDRESS = '192.168.1.231'
 MONGO_PORT = 27017
 
@@ -23,7 +24,7 @@ class Database(object):
                 res = res + _res
         else:
             res = self._find_all(condition)
-        return res
+        return self._clean_data(res)
 
     def _find_all(self,condit):
         o_list = []
@@ -68,7 +69,7 @@ class Database(object):
                         name_list.remove("")
                     except Exception:
                         pass
-                    print(name_list)
+
                     t_name = " ".join(name_list)
                     _one["name"] = t_name
                 _res.append(_one)
@@ -79,7 +80,7 @@ class Database(object):
         return o_list
 
     def _find(self,condition,db,col):
-        res = self.conn[db][col].find(condition)
+        res = self.conn[db][col].find(condition).limit(500)
         #数据加工
         _res = []
         for one in res:
@@ -88,22 +89,8 @@ class Database(object):
             one["db_type"] = "mongo"
             _res.append(one)
         return _res
-    def clean_data(self,res):
-        props = {
-            "eamil":[{"position":[],"value":'xxx@.com'}],
-            "tel":[{"position":[],"value":"xx@.com"}]
-        }
-        for index in range(len(res)):
-            one = res[index]
-            email = one.get("email")
-            #如果一条数据有email属性
-            if email:
-                for item in props["email"]:
-                    #有就加如所在序号
-                    if email == item["value"]:
-                        item
-
-                props["email"].append({"postion":index,"value":email})
+    def _clean_data(self,data):
+        return MeageData(data=data).clean_data()
 
 
 

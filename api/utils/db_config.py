@@ -1,7 +1,7 @@
 REFLECT = {
     "lingying-db.pdl-coll": {
         "name": "name",
-        "eamil": "eamil",
+        "email": "email",
         "tel": "tel",
         "cid": "liid"
     }
@@ -12,12 +12,14 @@ REFLECT = {
     }
     , "verifications-db.businessleads": {
         "email": "email",
+        "tel":"tel",
         "first_name": "first_name",
         "last_name": "last_name",
     }
     , "verifications-db.email_with_phone": {
         "email": "email",
         "first_name": "first_name",
-        "last_name": "last_name"
+        "last_name": "last_name",
+        "tel":"tel"
     }
 }
